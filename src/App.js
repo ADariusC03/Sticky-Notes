@@ -1,6 +1,7 @@
 import './App.css';
 import Note from './Note/Note';
 import React, { Component } from 'react'
+import NoteForm from './NoteForm/NoteForm';
 
 
 class App extends Component{
@@ -34,7 +35,7 @@ class App extends Component{
           }
         </div>
         <div className="notesFooter">
-        &copy;{new Date().getFullYear()} A'DariusC03 | All rights reserved | Terms Of Service | Privacy
+         <NoteForm />
         </div>
       </div>
     );
