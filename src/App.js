@@ -63,7 +63,7 @@ class App extends Component {
     return (
       <div className="notesWrapper">
         <div className="notesHeader">
-          <div className="heading">React & Firebase To-Do List</div>
+          <div className="heading">Sticky Note</div>
         </div>
         <div className="notesBody">
           {
