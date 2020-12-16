@@ -7,16 +7,29 @@ import NoteForm from './NoteForm/NoteForm';
 class App extends Component{
   constructor(props){
     super(props);
+    this.addNote = this.addNote.bind(this);
 
     //Setup the React state of our component
     // { inside the curly brackets is where we map the notes array }
-    this.state ={
+    this.state = {
       note: [
         {id: 1, noteContent: "Note 1 here!" },
         {id: 2, noteContent: "Note 2 here!" },
       ],
 
     }
+
+  }
+
+  addNote(note){
+    // updates the current state of our notes
+    // push the notes onto the notes array.
+    const previousNotes = this.state.note;
+    previousNotes.push({ id: previousNotes.length + 1, noteContent: note });
+
+    this.setState({
+      notes: previousNotes
+    })
   }
 
   render(){
@@ -35,7 +48,8 @@ class App extends Component{
           }
         </div>
         <div className="notesFooter">
-         <NoteForm />
+          {/* Notes input and add button feature */}
+         <NoteForm addNote={this.addNote} />
         </div>
       </div>
     );
