@@ -5,6 +5,7 @@ import { DB_CONFIG } from './Config/Config';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import './App.css';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 class App extends Component {
 
@@ -63,7 +64,7 @@ class App extends Component {
     return (
       <div className="notesWrapper">
         <div className="notesHeader">
-          <div className="heading">Sticky Note</div>
+          <div className="heading"><EventNoteIcon fontSize="large" color="secondary"/> Sticky Note</div>
         </div>
         <div className="notesBody">
           {
