@@ -2,6 +2,11 @@ import './App.css';
 import Note from './Note/Note';
 import React, { Component } from 'react'
 import NoteForm from './NoteForm/NoteForm';
+import { DB_CONFIG } from './Config/Config';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+
 
 
 class App extends Component{
@@ -9,28 +14,53 @@ class App extends Component{
     super(props);
     this.addNote = this.addNote.bind(this);
 
+    this.app = firebase.initializeApp(DB_CONFIG);
+    this.database = this.app.database().ref().child('note');
+
     //Setup the React state of our component
     // { inside the curly brackets is where we map the notes array }
     this.state = {
-      note: [
-        {id: 1, noteContent: "Note 1 here!" },
-        {id: 2, noteContent: "Note 2 here!" },
-      ],
-
+      note: [],
     }
 
   }
 
-  addNote(note){
-    // updates the current state of our notes
-    // push the notes onto the notes array.
+  componentWillMount(){
     const previousNotes = this.state.note;
-    previousNotes.push({ id: previousNotes.length + 1, noteContent: note });
 
-    this.setState({
-      notes: previousNotes
+    this.database.on('child_added', snap => {
+      previousNotes.push({
+        id: snap.key,
+        noteContent: snap.val().noteContent,
+      })
+
+      this.setState({
+        notes: previousNotes
+      })
+    })
+
+    this.database.on('child_removed', snap => {
+      for(var i=0; i < previousNotes.length; i++){
+        if(previousNotes[i].id === snap.key){
+          previousNotes.splice(i, 1);
+        }
+      }
+
+      this.setState({
+        notes: previousNotes
+      })
     })
   }
+
+  addNote(note){
+    this.database.push().set({ noteContent: note});
+  }
+
+  removeNote(noteId){
+    console.log("from the parent: " + noteId);
+    this.database.child(noteId).remove();
+  }
+
 
   render(){
     return (
